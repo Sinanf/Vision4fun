@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MoveBack : MonoBehaviour
 {
-    private float speed = 30f;
+    private float speed = 20f;
     private float leftBound = -15;
     private Player playerScript;
 

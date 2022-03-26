@@ -113,6 +113,7 @@ public class Player : MonoBehaviour
             explosionParticle.Play();
             dirtParticle.Stop();
             playerAudio.PlayOneShot(crashSound, 1f);
+            playerAudio.Pause();
         }
     }
 }

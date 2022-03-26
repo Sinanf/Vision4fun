@@ -12,6 +12,8 @@ public class Player : MonoBehaviour
     public AudioClip jumpSound;
     public AudioClip crashSound;
     public AudioSource playerAudio;
+    private Rock rock;
+    
 
 
     public float speedModifier;
@@ -34,6 +36,7 @@ public class Player : MonoBehaviour
         playerRb = GetComponent<Rigidbody>();
         playerAnim = GetComponent<Animator>();
         playerAudio = GetComponent<AudioSource>();
+        
 
         gravityModifier = 1.5f;
         speedModifier = 10f;
@@ -113,7 +116,14 @@ public class Player : MonoBehaviour
             explosionParticle.Play();
             dirtParticle.Stop();
             playerAudio.PlayOneShot(crashSound, 1f);
-            playerAudio.Pause();
+
         }
+
+                
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        other.gameObject.SetActive(false);
     }
 }

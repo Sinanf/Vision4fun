@@ -9,15 +9,14 @@ public class SpawnManager : MonoBehaviour
     public GameObject rockPrefab;
     private Player playerScript;
 
-    private float startDelayObs = 2;
-    private float repeatRateObs = 2;
+    private float startDelayObs = 2.5f;
+    private float repeatRateObs = 1.5f;
 
     private float startDelayRock = 1;
     private float repeatRateRock = 0.5f;
 
-    private int xLines = 30;
-    private int yLines = (int)1.25;
-    private int[] spawnLinesZ = { -3, 0, 3 };
+    private int yLines;
+    
     
 
     private Vector3 spawnPos = new Vector3(35, 0, 0);
@@ -40,7 +39,8 @@ public class SpawnManager : MonoBehaviour
     {
         if (playerScript.gameOver == false)
         {
-            Instantiate(obstaclePrefab, SpawningPos(), obstaclePrefab.transform.rotation);
+            spawnPos = new Vector3(25, yLines, Random.Range(-3, 3));
+            Instantiate(obstaclePrefab, spawnPos, obstaclePrefab.transform.rotation);
         }
         
     }
@@ -48,18 +48,16 @@ public class SpawnManager : MonoBehaviour
     //use this to spawn rock
     public void SpawnRock()
     {
+        yLines = (int)Random.Range(1.1f, 1.5f);
+
         if (playerScript.gameOver == false)
         {
-            Instantiate(rockPrefab, SpawningPos(), rockPrefab.transform.rotation);
+            spawnPos = new Vector3(20, yLines, Random.Range(-3, 3));
+            Instantiate(rockPrefab, spawnPos, rockPrefab.transform.rotation);
         }
     }
 
-    public Vector3 SpawningPos()
-    {
-        
-        return spawnPos = new Vector3(xLines, yLines, Random.Range(-3,3));
-                    
-    }
+    
 
 
 

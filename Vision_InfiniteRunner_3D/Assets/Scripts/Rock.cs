@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class Rock : MonoBehaviour
 {
-
+    
     public float rotateSpeed = 1;
-    public AudioSource rockFX;
+   
+
 
     void Start()
     {
@@ -19,14 +20,15 @@ public class Rock : MonoBehaviour
         transform.Rotate(0, rotateSpeed, 0, Space.World);
     }
 
-    private void OnTriggerEnter(Collider other)
+    
+
+    private void OnCollisionEnter(Collision collision)
     {
-        rockFX.Play();
-        this.gameObject.SetActive(false);
+
+        
     }
 
-    private void OnBecameInvisible()
-    {
-        Destroy(gameObject);
-    }
+    
+
+
 }

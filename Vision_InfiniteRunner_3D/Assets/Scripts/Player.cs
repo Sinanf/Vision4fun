@@ -6,14 +6,24 @@ public class Player : MonoBehaviour
 {
     private Touch touch;
     private Rigidbody playerRb;
-    public float jumpForce;
-    
+    private Animator playerAnim;
+    public ParticleSystem explosionParticle;
+    public ParticleSystem dirtParticle;
+    public AudioClip jumpSound;
+    public AudioClip crashSound;
+    public AudioSource playerAudio;
+
+
     public float speedModifier;
     public float gravityModifier;
-    
+    public float jumpForce;
+
     private bool left;
     private bool right;
     private bool isOnGround = true;
+    public bool gameOver;
+
+    
     
     //Vector3 touchPosition = Camera.main.ScreenToWorldPoint(touch.position);
     
@@ -22,10 +32,14 @@ public class Player : MonoBehaviour
     void Start()
     {
         playerRb = GetComponent<Rigidbody>();
-        Physics.gravity *= gravityModifier;
+        playerAnim = GetComponent<Animator>();
+        playerAudio = GetComponent<AudioSource>();
+
+        gravityModifier = 1.5f;
         speedModifier = 10f;
-        jumpForce = 10f;
-        
+        jumpForce = 500f;
+        Physics.gravity *= gravityModifier;
+
     }
 
     
@@ -52,12 +66,15 @@ public class Player : MonoBehaviour
                 right = true;
             }
 
-            if (touch.deltaPosition.y > 50.0f && isOnGround)
+            if (touch.deltaPosition.y > 50.0f && isOnGround && !gameOver)
             {
                
                 playerRb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
                 isOnGround = false;
-                
+                playerAnim.SetTrigger("Jump_trig");
+                dirtParticle.Stop();
+                playerAudio.PlayOneShot(jumpSound, 1f);
+                               
 
             }
 
@@ -80,5 +97,22 @@ public class Player : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         isOnGround = true;
+
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            isOnGround = true;
+            dirtParticle.Play();
+        }
+        
+        else if(collision.gameObject.CompareTag("Obstacle"))
+        {
+            gameOver = true;
+            Debug.Log("Game Over");
+            playerAnim.SetBool("Death_b", true);
+            playerAnim.SetInteger("Deathtype_int", 1);
+            explosionParticle.Play();
+            dirtParticle.Stop();
+            playerAudio.PlayOneShot(crashSound, 1f);
+        }
     }
 }

@@ -1187,7 +1187,7 @@ MonoBehaviour:
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
     m_FontSize: 40
-    m_FontStyle: 0
+    m_FontStyle: 1
     m_BestFit: 0
     m_MinSize: 4
     m_MaxSize: 40
@@ -1933,6 +1933,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slider: {fileID: 2059549632}
+  energyPercentage: 0
+  energyText: {fileID: 963773668}
 --- !u!114 &2059549632
 MonoBehaviour:
   m_ObjectHideFlags: 0

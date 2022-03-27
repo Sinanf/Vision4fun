@@ -7,20 +7,13 @@ using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
 {
-    public Toggle toggle;    
-    private bool toggleOn;
+    public Toggle toggle;
+    
+    
 
-    private void Start()
+    private void Update()
     {
-        
-        toggle.isOn = toggleOn;
-        ToggleBool(toggleOn);
-        
-        
-        
-        
-        
-
+        SaveData2();
     }
 
     public void PlayGame()
@@ -31,42 +24,24 @@ public class MainMenu : MonoBehaviour
     public void QuitGame()
     {
         Application.Quit();
-    }
-
-    
-    public void CheckData()
-    {
-        if (PlayerPrefs.HasKey("MusicData"))
-        {
-            
-            if (PlayerPrefs.GetInt("MusicData") > 0)
-            {
-                toggleOn = true;
-            }
-            else
-            {
-                toggleOn = false;
-            }
-        }
-        PlayerPrefs.Save();
-        
-    }
+    }    
 
     
 
-    public void ToggleBool (bool toggleOn)
+    public void SaveData2()
     {
-        if (toggleOn == true)
+        if (toggle.isOn == true)
         {
             PlayerPrefs.SetInt("MusicData", 1);
+            
         }
-        else
+        else 
         {
+            toggle.isOn = false;
             PlayerPrefs.SetInt("MusicData", 0);
+            
+            
         }
-        CheckData();
-    }
-
-
+    }    
 
 }

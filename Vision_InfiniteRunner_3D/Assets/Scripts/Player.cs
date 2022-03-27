@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
@@ -12,13 +13,17 @@ public class Player : MonoBehaviour
     public AudioClip jumpSound;
     public AudioClip crashSound;
     public AudioSource playerAudio;
-    private Rock rock;
+
+    public static int rockCount;
+    public GameObject rockCountDisplay;
     
-
-
     public float speedModifier;
     public float gravityModifier;
     public float jumpForce;
+
+    public int maxEnergy = 100;
+    public int currentEnergy;
+    public EnergyBar energyBar;
 
     private bool left;
     private bool right;
@@ -36,6 +41,9 @@ public class Player : MonoBehaviour
         playerRb = GetComponent<Rigidbody>();
         playerAnim = GetComponent<Animator>();
         playerAudio = GetComponent<AudioSource>();
+
+        energyBar.SetMaxEnergy(maxEnergy);
+        currentEnergy = maxEnergy;
         
 
         gravityModifier = 1.5f;
@@ -48,8 +56,16 @@ public class Player : MonoBehaviour
     
     void Update()
     {
-        
 
+        //rock count
+        rockCountDisplay.GetComponent<Text>().text = "" + rockCount;
+
+        PlayerMovement();
+        
+    }
+
+    private void PlayerMovement()
+    {
         Vector3 moveRight = new Vector3(transform.position.x, transform.position.y, 2.5f);
         Vector3 moveLeft = new Vector3(transform.position.x, transform.position.y, -2.5f);
 
@@ -61,24 +77,24 @@ public class Player : MonoBehaviour
             {
                 left = true;
                 right = false;
+                LoseEnergy(5);
             }
 
             if (touch.deltaPosition.x < -50.0f)
             {
                 left = false;
                 right = true;
+                LoseEnergy(5);
             }
 
             if (touch.deltaPosition.y > 50.0f && isOnGround && !gameOver)
             {
-               
                 playerRb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
                 isOnGround = false;
                 playerAnim.SetTrigger("Jump_trig");
                 dirtParticle.Stop();
                 playerAudio.PlayOneShot(jumpSound, 1f);
-                               
-
+                LoseEnergy(7);
             }
 
             if (right == true)
@@ -90,10 +106,6 @@ public class Player : MonoBehaviour
             {
                 transform.position = Vector3.Lerp(transform.position, moveLeft, speedModifier * Time.deltaTime);
             }
-
-
-           
-
         }
     }
 
@@ -124,6 +136,20 @@ public class Player : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        rockCount += 1;
         other.gameObject.SetActive(false);
+        GainEnergy(3);
+    }
+
+    private void LoseEnergy(int fatigue)
+    {
+        currentEnergy -= fatigue;
+        energyBar.SetEnergy(currentEnergy);
+    }
+
+    private void GainEnergy(int power)
+    {
+        currentEnergy += power;
+        energyBar.SetEnergy(currentEnergy);
     }
 }

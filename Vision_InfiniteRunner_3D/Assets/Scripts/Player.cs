@@ -128,6 +128,8 @@ public class Player : MonoBehaviour
             explosionParticle.Play();
             dirtParticle.Stop();
             playerAudio.PlayOneShot(crashSound, 1f);
+            Camera.main.GetComponent<AudioSource>().Stop();
+
 
         }
 

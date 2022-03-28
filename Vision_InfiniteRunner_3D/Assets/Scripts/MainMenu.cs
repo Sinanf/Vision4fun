@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 
 public class MainMenu : MonoBehaviour
@@ -20,12 +23,6 @@ public class MainMenu : MonoBehaviour
     {
         SceneManager.LoadScene(1);
     }
-
-    public void QuitGame()
-    {
-        Application.Quit();
-    }    
-
     
 
     public void SaveData2()
@@ -42,6 +39,15 @@ public class MainMenu : MonoBehaviour
             
             
         }
-    }    
+    }
+
+    public void QuitGame()
+    {
+#if UNITY_EDITOR
+        EditorApplication.ExitPlaymode();
+#else
+        Application.Quit(); // original code to quit Unity player
+#endif
+    }
 
 }

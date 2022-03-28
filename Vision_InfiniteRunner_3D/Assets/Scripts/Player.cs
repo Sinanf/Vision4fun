@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
+
 
 public class Player : MonoBehaviour
 {
@@ -183,4 +185,6 @@ public class Player : MonoBehaviour
     {
         Camera.main.GetComponent<AudioSource>().Stop();
     }
+
+    
 }

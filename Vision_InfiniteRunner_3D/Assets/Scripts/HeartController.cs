@@ -7,53 +7,52 @@ public class HeartController : MonoBehaviour
 {
 
     private int playerHeart = 3;
-    private int currentHeart;
+    private static int currentHeart;
 
     [SerializeField] private Image[] hearts;    
     [SerializeField] private Button playButton;
     [SerializeField] private Button adsButton;
 
     void Start()
-    {
-        currentHeart = playerHeart;
-        ColorUpdate(playerHeart);
-
-        playButton.onClick.AddListener(TaskOnClick);
-    }
-
-
-    public void UpdateHeart()
     {        
-        ColorUpdate(currentHeart);
+        currentHeart = playerHeart;        
+        ColorUpdate(playerHeart);
+        playButton.onClick.AddListener(TaskOnClick);
+        
     }
 
+
+    public void SetInt(string KeyName, int Value)
+    {
+        PlayerPrefs.SetInt(KeyName, Value);
+        
+    }
+
+    public int GetInt(string KeyName)
+    {
+        return PlayerPrefs.GetInt(KeyName);
+        
+    }
 
     void TaskOnClick()
-    {
-        Debug.Log("azaltma öncesi = " + currentHeart);
-        SetInt("currentHeart", currentHeart - 1);
-        GetInt("currentHeart");
+    {        
+        currentHeart -= 1;         
         ColorUpdate(currentHeart);
-        Debug.Log("1 azaltýldý");
+        
     }
 
 
     public void GainHeartFromAds()
     {
-        currentHeart = 3;
-        SetInt("currentHeart", 3);
-        GetInt("currentHeart");
+        currentHeart = 3;        
         ColorUpdate(currentHeart);
+        Debug.Log("Gained 3 hearts from ads" + currentHeart);
+
     }
     
 
     public void ColorUpdate(int currentHeart)
     {
-        
-        if (PlayerPrefs.HasKey("currentHeart"))
-        {
-            Debug.Log("key is correct and " + currentHeart);
-
             if (currentHeart == 3)
             {
 
@@ -81,23 +80,12 @@ public class HeartController : MonoBehaviour
                 hearts[1].color = Color.black;
                 hearts[2].color = Color.black;
 
-            }
+            }  
 
-        }
-        PlayerPrefs.Save();
+        
+        
         
     }
 
-    public void SetInt(string KeyName, int Value)
-    {
-        PlayerPrefs.SetInt(KeyName, Value);
-        Debug.Log("Player saved" + currentHeart);
-    }
-
-    public int GetInt(string KeyName)
-    {
-        return PlayerPrefs.GetInt(KeyName);
-        Debug.Log("Player saved" + currentHeart);
-    }
 
 }

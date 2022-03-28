@@ -170,6 +170,7 @@ public class Player : MonoBehaviour
         playerAudio.PlayOneShot(crashSound, 1f);
         Camera.main.GetComponent<AudioSource>().Stop();
         gameOverMenuUI.SetActive(true);
+        
     }
 
     private void EnergyOver()

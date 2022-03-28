@@ -6,77 +6,98 @@ using UnityEngine.UI;
 public class HeartController : MonoBehaviour
 {
 
-    public int playerHeart;
+    private int playerHeart = 3;
+    private int currentHeart;
 
     [SerializeField] private Image[] hearts;    
     [SerializeField] private Button playButton;
     [SerializeField] private Button adsButton;
-    
-    private bool isClicked;
-
 
     void Start()
     {
-        playerHeart = 3;
-        UpdateHeartSetting();
-    }
+        currentHeart = playerHeart;
+        ColorUpdate(playerHeart);
 
-    
-    void Update()
-    {
         playButton.onClick.AddListener(TaskOnClick);
-        UpdateHeartSetting();
     }
 
-    public void UpdateHeartSetting()
+
+    public void UpdateHeart()
+    {        
+        ColorUpdate(currentHeart);
+    }
+
+
+    void TaskOnClick()
     {
-        for (int i = 0; i < hearts.Length; i++)
+        Debug.Log("azaltma öncesi = " + currentHeart);
+        SetInt("currentHeart", currentHeart - 1);
+        GetInt("currentHeart");
+        ColorUpdate(currentHeart);
+        Debug.Log("1 azaltýldý");
+    }
+
+
+    public void GainHeartFromAds()
+    {
+        currentHeart = 3;
+        SetInt("currentHeart", 3);
+        GetInt("currentHeart");
+        ColorUpdate(currentHeart);
+    }
+    
+
+    public void ColorUpdate(int currentHeart)
+    {
+        
+        if (PlayerPrefs.HasKey("currentHeart"))
         {
-            if (playerHeart == 3)
+            Debug.Log("key is correct and " + currentHeart);
+
+            if (currentHeart == 3)
             {
-                hearts[i].color = Color.red;
+
+                hearts[0].color = Color.red;
+                hearts[1].color = Color.red;
+                hearts[2].color = Color.red;
+
             }
-            else if (playerHeart == 2)
+            else if (currentHeart == 2)
             {
                 hearts[0].color = Color.red;
                 hearts[1].color = Color.red;
                 hearts[2].color = Color.black;
             }
-            else if (playerHeart == 1)
+            else if (currentHeart == 1)
             {
                 hearts[0].color = Color.red;
                 hearts[1].color = Color.black;
                 hearts[2].color = Color.black;
             }
-            else 
+            else if (currentHeart == 0)
             {
-                hearts[i].color = Color.black;
+
+                hearts[0].color = Color.black;
+                hearts[1].color = Color.black;
+                hearts[2].color = Color.black;
+
             }
-            
-            
+
         }
+        PlayerPrefs.Save();
+        
     }
 
-    public void IncreaseHeart()
+    public void SetInt(string KeyName, int Value)
     {
-        playerHeart++;
+        PlayerPrefs.SetInt(KeyName, Value);
+        Debug.Log("Player saved" + currentHeart);
     }
 
-    public void DecreaseHeart()
+    public int GetInt(string KeyName)
     {
-        playerHeart--;
+        return PlayerPrefs.GetInt(KeyName);
+        Debug.Log("Player saved" + currentHeart);
     }
-
-    void TaskOnClick()
-    {
-        DecreaseHeart();
-        Debug.Log("Clicked Play");
-    }
-
-    public void GainHeartFromAds()
-    {
-        playerHeart = 3;
-    }
-
 
 }

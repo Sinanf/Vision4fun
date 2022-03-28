@@ -1511,7 +1511,7 @@ MonoBehaviour:
   _showAdButton: {fileID: 783659283}
   _androidAdUnitId: Rewarded_Android
   _iOSAdUnitId: Rewarded_iOS
-  heartController: {fileID: 0}
+  heartController: {fileID: 1834214957}
 --- !u!1 &852241073
 GameObject:
   m_ObjectHideFlags: 0
